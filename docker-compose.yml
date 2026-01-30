@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant-rag
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage:z
+    networks:
+      - rag-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Application
+  app:
+    build: .
+    container_name: rag-app
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - QDRANT_URL=http://qdrant:6333
+    volumes:
+      - .:/app
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - rag-network
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Streamlit UI (optional)
+  streamlit:
+    build: .
+    container_name: rag-streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - QDRANT_URL=http://qdrant:6333
+    volumes:
+      - .:/app
+    depends_on:
+      - app
+    networks:
+      - rag-network
+    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    profiles:
+      - with-ui
+
+networks:
+  rag-network:
+    driver: bridge
+
