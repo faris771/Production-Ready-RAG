@@ -12,7 +12,7 @@ client = genai.Client(api_key=os.environ['GEMINI_API_KEY'])
 result = client.models.embed_content(
     model="gemini-embedding-001",
     contents="What is the meaning of life?",
-    config=types.EmbedContentConfig(output_dimensionality=768)
+    config=types.EmbedContentConfig(output_dimensionality=3072)
 )
 
 [embedding_obj] = result.embeddings
