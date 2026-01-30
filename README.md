@@ -2,6 +2,9 @@
 
 A production-grade Retrieval Augmented Generation (RAG) system built with FastAPI, Inngest, Qdrant, and Google Gemini. This system allows you to ingest PDF documents, store their embeddings in a vector database, and query them using natural language with AI-powered responses.
 
+<img width="851" height="769" alt="image" src="https://github.com/user-attachments/assets/d8f1af12-d861-4f3b-845d-6f0d3a59a84f" />
+
+
 ## ✨ Features
 
 - **📄 PDF Ingestion**: Load and process PDF documents into searchable chunks
@@ -19,6 +22,10 @@ This system uses **[Inngest](https://www.inngest.com/)** - a workflow orchestrat
 - 📊 **Observability**: Full visibility into workflow execution
 - ⏱️ **Step management**: Break workflows into resumable steps
 - 🎯 **Type safety**: Pydantic-based serialization
+
+<img width="908" height="484" alt="image" src="https://github.com/user-attachments/assets/efdb6534-f849-4219-b130-4bbd6de6e3a7" />
+
+
 
 ```
 ┌─────────────┐
@@ -46,6 +53,8 @@ This system uses **[Inngest](https://www.inngest.com/)** - a workflow orchestrat
             └─ Generate Answer (Gemini)
 ```
 
+
+
 ### Why Inngest?
 
 Unlike traditional REST APIs where you must manage retries, timeouts, and monitoring yourself, Inngest handles:
@@ -53,6 +62,10 @@ Unlike traditional REST APIs where you must manage retries, timeouts, and monito
 - **Step isolation**: Each step runs independently and can be retried
 - **Built-in observability**: View every workflow execution in the Inngest dashboard
 - **Easy debugging**: See exactly which step failed and why
+
+<img width="1920" height="969" alt="Screenshot from 2026-01-30 23-23-47" src="https://github.com/user-attachments/assets/f4cb22b5-04ac-46db-bc68-8e2c8cf3f25a" />
+
+
 
 ## 📋 Prerequisites
 
