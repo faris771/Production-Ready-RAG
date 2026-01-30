@@ -1,3 +1,5 @@
+import logging
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
 import constants as const
@@ -26,22 +28,34 @@ class QdrantStorage:
         self.client.upsert(self.collection, points=points)
 
 
-    def search(self, query_vector, top_k: int = 5): # WHY VECTOR?? because u decide what kind of embedding you will  use
+    def search(self, query_vector, top_k: int = 5) : # WHY VECTOR?? because u decide what kind of embedding you will  use
 
-        results = self.client.query_points(
+        response = self.client.query_points(
             collection_name=self.collection,
             query=query_vector,  # it was quer_vector
             limit=top_k,
             with_payload=True
         )
+
+
+        # THIS TOOK ME A LOT OF TIME TO FIND ABOUT
+        results = response.points
+        ############################################
+
+
         contexts = []
-        sources = []
+        sources = set()
+
         for r in results:
             payload = getattr(r, "payload", None) or {}
             text = payload.get("text", "")
             source = payload.get("source", "")
             if text:
                 contexts.append(text)
-                sources.append(source)
+                sources.add(source)
 
-        return {"contexts": contexts, "sources": sources}
+        logging.info(f"📊 CONTEXTT TESTTTTTTTTTTTTTTTTTTTTTT {contexts}, {sources}")
+        return {"contexts": contexts, "sources": list(sources)}
+
+
+

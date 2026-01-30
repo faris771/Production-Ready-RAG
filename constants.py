@@ -5,3 +5,5 @@ COLLECTION_NAME="docs"
 EMBED_MODEL="gemini-embedding-001"
 CHUNK_SIZE=1000
 OVERLAP=200
+
+GEMINI_LLM_MODEL="gemini-2.5-flash"

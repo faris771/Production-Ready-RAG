@@ -11,7 +11,7 @@ class RAGUpsertResult(pydantic.BaseModel):
 
 
 class RAGSearchResult(pydantic.BaseModel):
-    context: list[str]
+    contexts: list[str]
     sources: list[str]
 
 
