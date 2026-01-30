@@ -137,7 +137,76 @@ This will start the Inngest Dev Server at `http://localhost:8288`.
 
 ## 🚀 Usage
 
-### Start the Application
+### 🐳 Running with Docker (Recommended for Production)
+
+**Docker Compose makes it easy to run all services together!**
+
+#### Option A: Without Streamlit UI
+
+```bash
+# 1. Make sure you have .env file with your API key
+cp .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+
+# 2. Start all services
+docker-compose up -d
+
+# 3. Start Inngest Dev Server (in separate terminal)
+npx inngest-cli@latest dev
+```
+
+#### Option B: With Streamlit UI
+
+```bash
+# Start all services including Streamlit
+docker-compose --profile with-ui up -d
+
+# Start Inngest Dev Server (in separate terminal)
+npx inngest-cli@latest dev
+```
+
+**Services will be available at:**
+- 🚀 FastAPI: http://localhost:8000
+- 🎨 Streamlit UI: http://localhost:8501 (if using --profile with-ui)
+- 🔍 Qdrant: http://localhost:6333
+- ⚡ Inngest: http://localhost:8288
+
+**Useful Docker Commands:**
+```bash
+# View logs
+docker-compose logs -f
+
+# View logs for specific service
+docker-compose logs -f app
+docker-compose logs -f qdrant
+
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (fresh start)
+docker-compose down -v
+
+# Rebuild containers after code changes
+docker-compose build
+docker-compose up -d
+
+# Check service status
+docker-compose ps
+```
+
+**Why Docker?**
+- ✅ Consistent environment across different machines
+- ✅ Easy to deploy to production
+- ✅ Automatic service dependencies (Qdrant starts before FastAPI)
+- ✅ Health checks ensure services are ready
+- ✅ One command to start/stop everything
+- ✅ Isolated network for all services
+
+---
+
+### 🔧 Running Manually (Development)
+
+For local development without Docker:
 
 ```bash
 uvicorn main:app --reload --log-level info
@@ -366,3 +435,4 @@ Modify the `top_k` parameter to retrieve more or fewer context chunks:
 - **[Streamlit](https://streamlit.io/)** - Interactive web UI
 - **[Pydantic](https://docs.pydantic.dev/)** - Data validation
 - **[python-dotenv](https://github.com/theskumar/python-dotenv)** - Environment management
+
