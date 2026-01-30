@@ -79,7 +79,7 @@ Unlike traditional REST APIs where you must manage retries, timeouts, and monito
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/faris771/Production-Ready-RAG
 cd Prodution_Ready_RAG
 ```
 
