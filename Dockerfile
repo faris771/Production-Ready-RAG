@@ -1,6 +1,11 @@
 # Python application
 FROM python:3.13-slim
 
+# Add metadata labels for GitHub Container Registry
+LABEL org.opencontainers.image.source="https://github.com/faris771/Production-Ready-RAG"
+LABEL org.opencontainers.image.description="Production-Ready RAG System with FastAPI, Inngest, Qdrant, and Google Gemini"
+LABEL org.opencontainers.image.licenses="MIT"
+
 # Set working directory
 WORKDIR /app
 
