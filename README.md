@@ -137,6 +137,59 @@ This will start the Inngest Dev Server at `http://localhost:8288`.
 
 ## 🚀 Usage
 
+### 🐳 Using the Pre-built Docker Image (GitHub Packages)
+
+**The easiest way to get started is to pull the pre-built Docker image from GitHub Container Registry!**
+
+#### Pull and Run the Image
+
+```bash
+# Pull the latest image from GitHub Packages
+docker pull ghcr.io/faris771/production-ready-rag:latest
+
+# Run with environment variables
+docker run -d \
+  --name rag-app \
+  -p 8000:8000 \
+  -e GEMINI_API_KEY=your_api_key_here \
+  -e QDRANT_URL=http://qdrant:6333 \
+  ghcr.io/faris771/production-ready-rag:latest
+```
+
+#### Use in Docker Compose
+
+Update your `docker-compose.yml` to use the pre-built image:
+
+```yaml
+services:
+  app:
+    image: ghcr.io/faris771/production-ready-rag:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - QDRANT_URL=http://qdrant:6333
+    depends_on:
+      qdrant:
+        condition: service_healthy
+```
+
+**Available Image Tags:**
+- `ghcr.io/faris771/production-ready-rag:latest` - Latest stable release from main branch
+- `ghcr.io/faris771/production-ready-rag:main-<sha>` - Specific commit from main branch
+- `ghcr.io/faris771/production-ready-rag:main` - Main branch (same as latest)
+
+**Authentication (if repository is private):**
+```bash
+# Login to GitHub Container Registry
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+
+# Pull the image
+docker pull ghcr.io/faris771/production-ready-rag:latest
+```
+
+---
+
 ### 🐳 Running with Docker (Recommended for Production)
 
 **Docker Compose makes it easy to run all services together!**
@@ -435,4 +488,35 @@ Modify the `top_k` parameter to retrieve more or fewer context chunks:
 - **[Streamlit](https://streamlit.io/)** - Interactive web UI
 - **[Pydantic](https://docs.pydantic.dev/)** - Data validation
 - **[python-dotenv](https://github.com/theskumar/python-dotenv)** - Environment management
+
+## 📦 Docker Package
+
+This project is automatically published as a Docker package to GitHub Container Registry (GHCR). The Docker image is built and pushed on every commit to the main branch using GitHub Actions.
+
+### Package Information
+- **Registry**: GitHub Container Registry (ghcr.io)
+- **Package URL**: https://github.com/faris771/Production-Ready-RAG/pkgs/container/production-ready-rag
+- **Public Access**: The package is publicly available for pulling
+- **Automated Builds**: Images are automatically built and published via GitHub Actions
+
+### CI/CD Workflow
+The `.github/workflows/docker-build.yml` workflow:
+- ✅ Builds Docker images on every push to main/master
+- ✅ Publishes to GitHub Container Registry automatically
+- ✅ Tags images with branch name, commit SHA, and 'latest'
+- ✅ Uses GitHub Actions cache for faster builds
+- ✅ Includes proper metadata and labels
+
+### Building Locally
+To build the Docker image locally:
+```bash
+docker build -t production-ready-rag:local .
+```
+
+To push your own version:
+```bash
+docker tag production-ready-rag:local ghcr.io/YOUR_USERNAME/production-ready-rag:custom
+docker push ghcr.io/YOUR_USERNAME/production-ready-rag:custom
+```
+
 
