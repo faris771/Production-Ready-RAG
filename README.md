@@ -179,7 +179,9 @@ services:
 - `ghcr.io/faris771/production-ready-rag:main-<sha>` - Specific commit from main branch
 - `ghcr.io/faris771/production-ready-rag:main` - Main branch (same as latest)
 
-**Authentication (if repository is private):**
+**Note:** The package is publicly available, so no authentication is required to pull the image. The authentication section below is only relevant if you fork this repository and make it private.
+
+**Authentication (for private repositories):**
 ```bash
 # Login to GitHub Container Registry
 echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
